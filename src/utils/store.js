@@ -4,7 +4,8 @@ const defaultStore = {
     stockName: "平安银行",
     stockCode: "000001"
   },
-  date: "2019-04-15"
+  date: "2019-04-15",
+  firstInit: true
 };
 
 class Store {
@@ -14,5 +15,4 @@ class Store {
     }
   }
 }
-
 export default new Store();

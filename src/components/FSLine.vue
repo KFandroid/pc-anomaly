@@ -118,9 +118,7 @@ export default {
     }
   }),
   created() {
-    setTimeout(() => {
       Storage.addFile(Object.assign({ ctx: this }, file112));
-    }, 2000); // 有首页后FIXME
   },
   updated() {
     if (this.drawData.data.length === 0) {

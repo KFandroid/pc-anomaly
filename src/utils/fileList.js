@@ -1,8 +1,33 @@
-import EventBus from "./pubsub";
+import { EventBus } from "./pubsub.js";
 import * as utils from "./util.js";
 import Store from "./store";
+import localForage from "localforage";
 // import { getNumUnit } from "./changeUnit.js";
 import { createStaticFileKeyStr, createKeyStr112 } from "./createKeyFn.js";
+
+export const file109 = {
+  // 交易日历
+  type: "109",
+  changeCb: data => {
+    let key = utils.addZeroAfter("a109", 31);
+    let newTradeDate = data.data[data.data.length - 1];
+
+    Store.latestDate = newTradeDate;
+    //   this.setData({
+    //     date: newTradeDate.year + '-' + addZero(newTradeDate.month, 2) + '-' + addZero(newTradeDate.day, 2),
+    //     date2: newTradeDate.year + '-' + addZero(newTradeDate.month, 2) + '-' + addZero(newTradeDate.day, 2)
+    //   })
+    Store.static109 = true;
+    localForage.setItem(key, data);
+    EventBus.$emit("loginsuccess", {});
+    //   this.isHasStaticData()
+  },
+  createKey: () => {
+    let val = createStaticFileKeyStr(109);
+    return val;
+  }
+  // isCallMainBack: false
+};
 
 export const file105 = {
   // 所有股票代码名称信息列表
@@ -13,12 +38,50 @@ export const file105 = {
     Store.stockList = data.data;
     let key = utils.addZeroAfter("a105", 31);
     Store.static105 = true;
-    EventBus.emit("loginsuccess");
+    localForage.setItem(key, data);
+    EventBus.$emit("loginsuccess", {});
+
     //   wx.setStorage({ key, data }) FIXME
     //   this.isHasStaticData()
   },
   createKey: () => {
     let val = createStaticFileKeyStr(105);
+    return val;
+  }
+};
+
+export const file106 = {
+  // 项目名称对应表
+  type: "106",
+  changeCb: data => {
+    let itemArr = [];
+    let a106 = data.data;
+    for (let i = 0; i < a106.length; i++) {
+      let cno = a106[i].no;
+      let temp = {};
+      if (a106[i].hasOwnProperty("children")) {
+        let children = a106[i].children;
+        for (let j = 0; j < children.length; j++) {
+          temp = Object.assign({}, children[j]);
+          temp.cno = "" + cno + children[j].cno;
+          temp.name = a106[i].name;
+          temp.code = utils.addZero(cno, 3) + utils.addZero(children[j].cno, 3);
+          temp.totalName = "" + temp.name + "-" + temp.cname;
+          itemArr.push(temp);
+        }
+      }
+    }
+    Store.static106 = true;
+    let key = utils.addZeroAfter("a106", 31);
+    localForage.setItem(key, data);
+    Store.t106 = data;
+    Store.a106 = data;
+    EventBus.$emit("loginsuccess", {});
+
+    //   this.isHasStaticData()
+  },
+  createKey: () => {
+    let val = createStaticFileKeyStr(106);
     return val;
   }
 };
