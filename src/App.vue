@@ -1,6 +1,8 @@
 <template>
   <div id="app">
-    <FSLine :isStock="isStock" :stockInfo="stockInfo" :height="height" :width="width" settingItem=""/>
+    
+    <Login/>
+    <!-- <FSLine :isStock="isStock" :stockInfo="stockInfo" :height="height" :width="width" settingItem=""/> -->
     <HelloWorld msg="Welcome to Your Vue.js App" />
   </div>
 </template>
@@ -8,13 +10,16 @@
 <script>
 import HelloWorld from "./components/HelloWorld.vue";
 import FSLine from "./components/FSLine.vue"
+import Login from "./components/Login.vue"
 import Store from "./utils/store.js"
+
 
 export default {
   name: "app",
   components: {
     HelloWorld,
-    FSLine
+    FSLine,
+    Login
   },
   data: ()=>({
     isStock: false,
@@ -43,6 +48,5 @@ export default {
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
   color: #2c3e50;
-  margin-top: 60px;
 }
 </style>
