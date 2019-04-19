@@ -12,7 +12,7 @@
 import Storage from "../utils/Storage.js";
 import { file112 } from "../utils/fileList.js";
 import { timeTable } from "../utils/FSTimeTable.js";
-import { debug } from "util";
+import { EventBus } from "@/utils/pubsub.js"
 
 export default {
   name: "FSLine",
@@ -29,13 +29,8 @@ export default {
       type: Number,
       default: 400
     },
-    stockInfo: {
-      type: Object,
-      default: () => ({
-        code: "010001",
-        stockName: "平安银行",
-        stockCode: "000001"
-      })
+    stockinfo: {
+      type: Object
     }
   },
   computed: {
@@ -47,6 +42,10 @@ export default {
     },
     yRange() {
       return [0, this.height];
+    },
+    stockCode() {
+      
+      return this.stockinfo.code
     }
   },
   watch: {
@@ -95,7 +94,6 @@ export default {
     }
   },
   data: () => ({
-    stockCode: "010001",
     showCrosshair: false,
     drawData: {
       data: []
@@ -118,8 +116,13 @@ export default {
     }
   }),
   created() {
-      Storage.addFile(Object.assign({ ctx: this }, file112));
+    EventBus.$on("changestock", this.changeStock.bind(this))
+    this.getData112()
   },
+  mounted() {
+    
+  },
+  
   updated() {
     if (this.drawData.data.length === 0) {
       this.clearCanvas();
@@ -130,6 +133,12 @@ export default {
     this.ctx = this.$refs.canvas.getContext("2d");
   },
   methods: {
+    changeStock(params) {
+      this.getData112()
+    },
+    getData112() {
+    Storage.addFile(Object.assign({ ctx: this }, file112));
+    },
     clickCanvas(e) {
       console.log(e);
       this.$refs.canvas;

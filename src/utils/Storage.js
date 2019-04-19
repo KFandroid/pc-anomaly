@@ -3,13 +3,15 @@ import Vue from "vue";
 class WXFile {
   constructor(file, storage) {
     this.type = file.type;
+    // 请求的数据都返回了
     this.isReturn = true;
     this.changeCb = data => {
       file.changeCb.bind(file.ctx)(data);
       this.isReturn = true;
     };
     this.createKey = () => {
-      // this.isReturn = false
+      // 每create一次key必定要返回一次数据，不论是本地还是线上的
+      this.isReturn = false;
       return file.createKey.bind(file.ctx)();
     };
     // if(file.hasOwnProperty('intervalTime')) {

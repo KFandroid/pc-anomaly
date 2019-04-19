@@ -1,5 +1,14 @@
 const sha1 = require("./sha1");
 
+const addZeroAfter = function(code, zeroNum) {
+  code = String(code).split("");
+  let leftZero = zeroNum - code.length;
+  for (let i = 0; i < leftZero; i++) {
+    code.push("0");
+  }
+  return code.join("");
+};
+
 const formatTime = date => {
   const year = date.getFullYear();
   const month = date.getMonth() + 1;
@@ -198,15 +207,6 @@ const addZero = function(code, zeroNum) {
   let leftZero = zeroNum - code.length;
   for (let i = 0; i < leftZero; i++) {
     code.unshift("0");
-  }
-  return code.join("");
-};
-
-const addZeroAfter = function(code, zeroNum) {
-  code = String(code).split("");
-  let leftZero = zeroNum - code.length;
-  for (let i = 0; i < leftZero; i++) {
-    code.push("0");
   }
   return code.join("");
 };
