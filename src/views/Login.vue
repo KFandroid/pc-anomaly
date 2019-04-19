@@ -13,10 +13,13 @@
         <input id="password" v-model="passWord" type="password">
       </div>
       <div class="login login_other">
-        <div class="other_btn">注册</div>
-        <div class="other_btn">忘记密码</div>
+        <!-- <div class="other_btn">注册</div>
+        <div class="other_btn">忘记密码</div> -->
+        <el-button type="text">注册</el-button>
+        <el-button type="text" >忘记密码</el-button>
       </div>
-      <div class="login_btn" @click="login">登录</div>
+     <!--  <div class="login_btn" @click="login">登录</div> -->
+     <el-button type="primary" @click="login" class="login_btn">登录</el-button>
     </div>
   </div>
 </template>
@@ -99,9 +102,9 @@ export default {
   max-height: 100%;
 }
 .form {
-  width: 30%;
   margin: 0 auto;
-  padding: 0 40px 40px 40px;
+      display: inline-block;
+
 }
 .login {
   margin: 0 0 20px 0;
